@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Workflow Optimizer</title>
+    <style>
+        body { font-family: Arial; background:#f5f5f5; padding:40px; }
+        .container { background:white; padding:30px; border-radius:10px; }
+        textarea, input { width:100%; padding:10px; margin-bottom:15px; }
+        button { padding:10px 20px; cursor:pointer; }
+        pre { background:#111; color:#0f0; padding:15px; overflow:auto; }
+        .hidden { display:none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>AI Coding Workflow Optimizer</h1>
+
+    <form id="optimizerForm">
+        <label>What are you building?</label>
+        <textarea id="goal" required></textarea>
+
+        <label>Tech Stack</label>
+        <input type="text" id="stack" required>
+
+        <label>Experience Level</label>
+        <input type="text" id="experience" required>
+
+        <label>Constraints</label>
+        <input type="text" id="constraints">
+
+        <button type="submit">Optimize Workflow</button>
+    </form>
+
+    <div id="loading" class="hidden">Generating...</div>
+
+    <div id="result" class="hidden"></div>
+</div>
+
+<script>
+const orderedKeys = [
+    "project_specification",
+    "folder_structure",
+    "environment_variables",
+    "security_architecture",
+    "optimized_prompt",
+    "ai_prompt_strategy",
+    "interaction_plan",
+    "risks",
+    "ai_failure_cases",
+    "testing_checklist",
+    "refactor_advice",
+    "secret_hacks",
+    "ai_self_critique",
+    "engineering_review",
+    "meta"
+];
+
+document.getElementById("optimizerForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "";
+
+    document.getElementById("loading").classList.remove("hidden");
+
+    const response = await fetch("/optimize", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            goal: document.getElementById("goal").value,
+            stack: document.getElementById("stack").value,
+            experience: document.getElementById("experience").value,
+            constraints: document.getElementById("constraints").value
+        })
+    });
+
+    const data = await response.json();
+
+    document.getElementById("loading").classList.add("hidden");
+    document.getElementById("result").classList.remove("hidden");
+
+    if (data.error) {
+        resultDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+        return;
+    }
+
+    orderedKeys.forEach(key => {
+        if (data[key]) {
+            const section = document.createElement("div");
+            section.innerHTML = `
+                <h2>${key.replaceAll("_", " ").toUpperCase()}</h2>
+                <pre>${JSON.stringify(data[key], null, 2)}</pre>
+            `;
+            resultDiv.appendChild(section);
+        }
+    });
+});
+</script>
+
+</body>
+</html>
