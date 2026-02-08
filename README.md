@@ -215,6 +215,14 @@ Test with:
 
 Watch it generate a complete engineering plan with security architecture, folder structure, and testing strategy—all validated and self-critiqued.
 
+## Example Output
+
+See [`examples/`](examples/) for:
+- **[sample_query.txt](examples/sample_query.txt)** — Input: Build a real-time document editor
+- **[sample_output.json](examples/sample_output.json)** — Complete system-generated engineering plan
+
+The output shows exactly what the system produces: structured specs, architecture, security design, testing strategy, risks, and quality scores—all in one coherent plan.
+
 ## The Meta Lesson
 
 This project teaches **how real AI systems work internally**:

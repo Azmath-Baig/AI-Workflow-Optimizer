@@ -1,0 +1,327 @@
+{
+  "project_specification": {
+    "name": "Real-Time Collaborative Document Editor",
+    "description": "Multi-user document editor with live collaboration, cursor tracking, and conflict resolution",
+    "core_features": [
+      "Real-time document synchronization",
+      "User cursor presence awareness",
+      "Operational transformation for conflict resolution",
+      "Rich text formatting",
+      "User authentication and authorization"
+    ],
+    "success_metrics": [
+      "Sub-100ms latency for cursor updates",
+      "Zero data loss in collaboration",
+      "Support 50+ concurrent users per document"
+    ]
+  },
+  "folder_structure": {
+    "root": {
+      "frontend": {
+        "src": {
+          "components": "React components (Editor, UserPresence, ToolBar)",
+          "pages": "Page components (Dashboard, Editor, Settings)",
+          "services": "API client, WebSocket manager",
+          "hooks": "Custom React hooks (useDocument, useCollaboration)",
+          "styles": "CSS and styling"
+        },
+        "public": "Static assets",
+        "package.json": "Frontend dependencies"
+      },
+      "backend": {
+        "src": {
+          "routes": "Express routes (documents, auth, collaboration)",
+          "controllers": "Business logic handlers",
+          "models": "MongoDB schemas (User, Document, Revision)",
+          "middleware": "Authentication, validation, error handling",
+          "sockets": "WebSocket event handlers",
+          "utils": "Helpers, validators, transformations"
+        },
+        "package.json": "Backend dependencies",
+        "server.js": "Entry point"
+      },
+      "shared": {
+        "types": "Shared TypeScript types",
+        "constants": "Shared constants",
+        "utils": "Shared utilities"
+      },
+      "docker-compose.yml": "Local development infrastructure",
+      ".env.example": "Environment variable template",
+      "README.md": "Project documentation"
+    }
+  },
+  "environment_variables": [
+    {
+      "name": "DATABASE_URL",
+      "purpose": "MongoDB connection string",
+      "example": "mongodb+srv://user:pass@cluster.mongodb.net/doceditor"
+    },
+    {
+      "name": "REDIS_URL",
+      "purpose": "Redis connection for caching sessions",
+      "example": "redis://localhost:6379"
+    },
+    {
+      "name": "JWT_SECRET",
+      "purpose": "Secret key for JWT token signing",
+      "example": "your-secret-key-min-32-chars"
+    },
+    {
+      "name": "WEBSOCKET_URL",
+      "purpose": "Frontend WebSocket endpoint",
+      "example": "ws://localhost:5000"
+    },
+    {
+      "name": "NODE_ENV",
+      "purpose": "Environment (development/production)",
+      "example": "development"
+    }
+  ],
+  "security_architecture": {
+    "authentication": {
+      "method": "JWT with refresh tokens",
+      "details": "Access tokens valid for 15 min, refresh tokens rotated on use",
+      "storage": "HttpOnly cookies for tokens"
+    },
+    "authorization": {
+      "document_access": "Role-based (owner, editor, viewer)",
+      "enforcement": "Checked on every WebSocket message",
+      "policy": "Deny by default, explicit grant only"
+    },
+    "data_protection": {
+      "transport": "TLS/SSL for all connections",
+      "at_rest": "MongoDB encryption at rest",
+      "sensitive_fields": "JWT secret, DB password in .env"
+    },
+    "conflict_resolution": {
+      "operational_transform": "Verify client edits against server state",
+      "validation": "Reject edits from unauthorized users",
+      "audit_trail": "Log all changes with user attribution"
+    }
+  },
+  "optimized_prompt": {
+    "system_rules": [
+      "Return ONLY valid JSON",
+      "No vague architecture",
+      "Concrete framework recommendations",
+      "Include security considerations",
+      "Consider 3-week deadline"
+    ],
+    "prompt_structure": "Goal + Stack + Experience + Constraints → Engineering Plan",
+    "validation_gates": [
+      "Schema enforcement",
+      "Security gap detection",
+      "Hallucination checking",
+      "Quality scoring"
+    ]
+  },
+  "ai_prompt_strategy": {
+    "generation_sequence": [
+      "1. Initial plan generation (temp=0.3)",
+      "2. JSON extraction with fallback",
+      "3. Schema validation",
+      "4. Self-critique pass (temp=0.2)",
+      "5. Engineering score (temp=0.2)"
+    ],
+    "validation_loop": "Extract JSON → Validate Schema → Repair if Invalid → Retry up to 2 times",
+    "self_critique_strategy": "Have AI audit itself for security gaps, vague language, and hallucinations. Score 1-10.",
+    "hallucination_prevention_rules": [
+      "Specific tech (React, Express, MongoDB, not 'modern framework')",
+      "Framework-specific details (e.g., Express middleware, not generic 'layer')",
+      "Actionable architecture (folder structure, not philosophy)",
+      "Security constraints (encryption, auth, not buzzwords)"
+    ]
+  },
+  "interaction_plan": [
+    {
+      "step": 1,
+      "actor": "User",
+      "action": "Submit goal, stack, experience, constraints",
+      "outcome": "System receives structured input"
+    },
+    {
+      "step": 2,
+      "actor": "System",
+      "action": "Call Groq API with strict system prompt",
+      "outcome": "AI generates initial engineering plan"
+    },
+    {
+      "step": 3,
+      "actor": "System",
+      "action": "Extract JSON, validate schema, repair if invalid",
+      "outcome": "Guaranteed valid structure"
+    },
+    {
+      "step": 4,
+      "actor": "System",
+      "action": "Self-critique and engineering score passes",
+      "outcome": "Quality metrics and issues identified"
+    },
+    {
+      "step": 5,
+      "actor": "System",
+      "action": "Auto-regenerate if score < 6/10",
+      "outcome": "Improved or original plan delivered"
+    },
+    {
+      "step": 6,
+      "actor": "Frontend",
+      "action": "Render plan in ordered sections",
+      "outcome": "User sees complete engineering outcome"
+    }
+  ],
+  "risks": [
+    {
+      "risk": "Operational Transform complexity",
+      "impact": "High",
+      "mitigation": "Use library (Yjs) instead of from-scratch implementation"
+    },
+    {
+      "risk": "WebSocket disconnection edge cases",
+      "impact": "Medium",
+      "mitigation": "Implement exponential backoff reconnect with message queue"
+    },
+    {
+      "risk": "MongoDB scaling for high-frequency updates",
+      "impact": "Medium",
+      "mitigation": "Use Redis for session persistence, archive old revisions"
+    },
+    {
+      "risk": "JWT token sprawl in browser",
+      "impact": "Medium",
+      "mitigation": "Use HttpOnly cookies, implement refresh token rotation"
+    }
+  ],
+  "ai_failure_cases": [
+    {
+      "failure": "Vague security architecture",
+      "example": "If AI says 'use encryption', not 'TLS 1.3 with AEAD ciphers'",
+      "prevention": "Self-critique catches vagueness, triggers regeneration"
+    },
+    {
+      "failure": "Missing deployment considerations",
+      "example": "Plan assumes unlimited resources or single-region only",
+      "prevention": "Engineering score penalizes non-production-ready architecture"
+    },
+    {
+      "failure": "Hallucinated libraries",
+      "example": "Recommends a non-existent OT library",
+      "prevention": "Prompt includes 'only recommend real, popular libraries'"
+    }
+  ],
+  "testing_checklist": [
+    {
+      "category": "Unit Tests",
+      "items": [
+        "Document diff algorithm correctness",
+        "JWT token validation",
+        "Permission checks on edit operations",
+        "Conflict resolution logic"
+      ]
+    },
+    {
+      "category": "Integration Tests",
+      "items": [
+        "Multi-user document editing scenario",
+        "WebSocket reconnection after network failure",
+        "Concurrent edits from 5+ users",
+        "Database consistency after operations"
+      ]
+    },
+    {
+      "category": "Load Tests",
+      "items": [
+        "50 concurrent users on single document",
+        "100 edits per second throughput",
+        "Document size scaling (100KB, 1MB)"
+      ]
+    },
+    {
+      "category": "Security Tests",
+      "items": [
+        "Unauthorized users cannot read/edit",
+        "Token expiration enforced",
+        "SQL/NoSQL injection prevention",
+        "XSS protection in editor"
+      ]
+    }
+  ],
+  "refactor_advice": [
+    {
+      "area": "State Management",
+      "current": "React local state",
+      "recommendation": "Consider Redux or Zustand for cross-component collaboration state, but start simple",
+      "reasoning": "Premature optimization kills MVPs. Add only when state becomes unmanageable."
+    },
+    {
+      "area": "Database Queries",
+      "current": "Fetch full document on edit",
+      "recommendation": "Implement differential sync (send only changes)",
+      "reasoning": "Essential for scaling beyond 5MB documents"
+    },
+    {
+      "area": "Error Handling",
+      "current": "Generic error messages",
+      "recommendation": "Client-side error code mapping + detailed server logs",
+      "reasoning": "Debuggability matters for collaborative features"
+    }
+  ],
+  "secret_hacks": [
+    {
+      "hack": "Use Yjs library for OT",
+      "why": "Don't build operational transform from scratch. Yjs is battle-tested, handles edge cases you'll miss."
+    },
+    {
+      "hack": "Store document revisions in MongoDB, not Redis",
+      "why": "Redis for live state, MongoDB for history. Gives you audit trail + undo/redo for free."
+    },
+    {
+      "hack": "WebSocket room joins, not broadcast to all",
+      "why": "Don't send cursor updates to users not viewing the document. Saves 80% of traffic."
+    },
+    {
+      "hack": "JWT expiry short (15min), but refresh tokens long (7 days)",
+      "why": "Balances security (short-lived tokens) with UX (users don't re-login constantly)."
+    },
+    {
+      "hack": "Test with real concurrent users day 1",
+      "why": "Multiplayer bugs only show up with actual concurrency. Mock testing misses everything."
+    }
+  ],
+  "ai_self_critique": {
+    "weaknesses": [
+      "Did not explicitly address rate limiting (important for MVP stability)"
+    ],
+    "security_gaps": [
+      "Should mention CORS policy configuration",
+      "CSRF tokens for state-changing operations"
+    ],
+    "architecture_issues": [
+      "Folder structure could clarify shared types location better"
+    ],
+    "hallucination_risk_score": "2/10",
+    "overall_score": "8/10",
+    "improvement_suggestions": [
+      "Add rate limiting to WebSocket events",
+      "Explicitly document CORS and CSRF strategy",
+      "Clarify monorepo vs separate directories"
+    ]
+  },
+  "engineering_review": {
+    "production_score": "8/10",
+    "security_score": "7/10",
+    "architecture_score": "8/10",
+    "specificity_score": "9/10",
+    "overall_engineering_score": "8/10"
+  },
+  "meta": {
+    "model_used": "llama-3.1-8b-instant",
+    "temperature": 0.3,
+    "multi_pass": true,
+    "schema_enforced": true,
+    "auto_regeneration_applied": false,
+    "generation_time_ms": 2847,
+    "total_passes": 5,
+    "validation_status": "PASSED"
+  }
+}

@@ -1,0 +1,32 @@
+INPUT QUERY TO THE SYSTEM:
+================================
+
+Goal: Build a real-time collaborative document editor
+Tech Stack: React.js, Node.js/Express, WebSockets, MongoDB, Redis
+Experience Level: 5 years full-stack
+Constraints: Must ship MVP in 3 weeks, team of 2 people, budget $5K for infrastructure
+
+
+WHAT THE SYSTEM DOES:
+================================
+
+1. Sends this to Groq (with strict system prompt)
+2. Extracts JSON from response
+3. Validates against strict schema (types, required fields)
+4. Repairs if invalid
+5. Self-critiques for security gaps and hallucinations
+6. Scores across 5 dimensions (production, security, architecture, specificity, overall)
+7. Auto-regenerates if score < 6/10
+8. Returns complete engineering plan with metadata
+
+The output shows:
+- Complete folder structure
+- Environment variables needed
+- Security architecture
+- Deployment strategy
+- Testing checklist
+- Risks and failure cases
+- Refactoring advice
+- Self-critique results
+- Engineering scores
+- What the system did (metadata)
